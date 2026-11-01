@@ -39,3 +39,22 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AllyDesk
+/src/generated
+/playwright/.clerk
+/test-results
+/playwright-report
+.env.test
+
+# Agents
+AGENTS.md
+
+# AI & IDE directories
+.windsurf/
+.claude/
+.agents/
+
+# Local databases (if using SQLite with Prisma)
+prisma/*.db
+prisma/*.db-journal
