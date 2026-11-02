@@ -14,6 +14,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@clerk/nextjs": "^7.9.23",
     "@prisma/adapter-pg": "^7.10.1",
     "@prisma/client": "^7.10.1",
     "class-variance-authority": "^0.7.1",
