@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../src/generated/prisma/client";
+import { PrismaClient, type Ticket } from "../src/generated/prisma/client";
 
 const db = new PrismaClient({
     adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL! }),
@@ -185,7 +185,7 @@ async function main() {
     const articles = await Promise.all(articlesData.map((data) => db.knowledgeArticle.create({ data })));
     const article = (slug: string) => articles.find((a) => a.slug === slug)!;
 
-    const tickets = [];
+    const tickets: Ticket[] = [];
     for (const t of ticketsData) {
         const first = t.msgs[0]!;
         const last = t.msgs[t.msgs.length - 1]!;

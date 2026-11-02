@@ -2,6 +2,8 @@ import { UserButton } from "@clerk/nextjs";
 
 import { getCurrentAgent } from "@/lib/auth";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
+export const instant = false;
+
 
 export default async function InboxPage() {
     const agent = await getCurrentAgent();
