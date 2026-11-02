@@ -9,6 +9,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
 
 const statuses = [
     { label: "Open", cls: "bg-status-open/15 text-status-open" },
@@ -29,7 +30,15 @@ export default function Home() {
         <main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-6 p-6">
             <header className="flex items-center justify-between">
                 <h1 className="text-2xl font-semibold tracking-tight">AllyDesk</h1>
-                <ThemeToggle />
+                <div className="flex items-center gap-2">
+                    <ThemeToggle />
+                    <Button variant="outline" asChild>
+                        <Link href="/sign-in">Sign in</Link>
+                    </Button>
+                    <Button asChild>
+                        <Link href="/inbox">Open inbox</Link>
+                    </Button>
+                </div>
             </header>
 
             <Card>
