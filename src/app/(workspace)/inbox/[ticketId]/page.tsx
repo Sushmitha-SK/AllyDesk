@@ -15,6 +15,9 @@ import { getAssignableAgents, getTicketById } from "@/features/tickets/queries";
 import { parseTicketFilters, type SearchParams } from "@/features/tickets/schemas";
 import { getCurrentAgent } from "@/lib/auth";
 
+import { AiDraftSection } from "@/features/ai-reply/components/ai-draft-section";
+import { Skeleton } from "@/components/ui/skeleton";
+
 type Props = {
     params: Promise<{ ticketId: string }>;
     searchParams: Promise<SearchParams>;
@@ -57,8 +60,10 @@ export default async function TicketPage({ params, searchParams }: Props) {
                         </Suspense>
                     </div>
 
-                    <div className="sticky bottom-0 shrink-0 border-t bg-background p-3 lg:static">
-                        {/* Step 9: the AI draft panel renders here, above the composer */}
+                    <div className="sticky bottom-0 max-h-[55dvh] shrink-0 space-y-3 overflow-y-auto border-t bg-background p-3 lg:static">
+                        <Suspense fallback={<Skeleton className="h-8 w-48" />}>
+                            <AiDraftSection ticketId={ticket.id} />
+                        </Suspense>
                         <ReplyComposer key={ticket.id} ticketId={ticket.id} />
                     </div>
                 </section>
