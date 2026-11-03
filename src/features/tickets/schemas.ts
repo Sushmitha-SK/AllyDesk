@@ -3,9 +3,11 @@ import { z } from "zod";
 import {
     ASSIGNEE_FILTERS,
     DEFAULT_FILTERS,
+    PRIORITIES,
     PRIORITY_FILTERS,
     SORT_OPTIONS,
     STATUS_FILTERS,
+    TICKET_STATUSES,
 } from "./constants";
 
 export const ticketFiltersSchema = z.object({
@@ -32,3 +34,13 @@ export function parseTicketFilters(raw: SearchParams): TicketFilters {
         sort: first(raw.sort),
     });
 }
+
+export const updateTicketSchema = z.object({
+    ticketId: z.string().min(1),
+    status: z.enum(TICKET_STATUSES).optional(),
+    priority: z.enum(PRIORITIES).optional(),
+    // null = unassign, undefined = leave unchanged
+    assigneeId: z.string().min(1).nullable().optional(),
+});
+
+export type UpdateTicketInput = z.input<typeof updateTicketSchema>;

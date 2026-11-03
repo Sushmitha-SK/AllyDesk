@@ -1,13 +1,12 @@
 import Link from "next/link";
-import { ArrowLeft, FileText, Mail, MessageCircle, UserRound } from "lucide-react";
+import { ArrowLeft, FileText, Mail, MessageCircle } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formatDateTime } from "@/lib/format";
 import { CHANNEL_LABELS, type ChannelValue } from "../constants";
 import type { TicketDetail } from "../queries";
-import { TicketPriorityBadge } from "./ticket-priority-badge";
-import { TicketStatusBadge } from "./ticket-status-badge";
+import { TicketControls } from "./ticket-controls";
 
 const CHANNEL_ICONS: Record<ChannelValue, typeof Mail> = {
     EMAIL: Mail,
@@ -15,9 +14,14 @@ const CHANNEL_ICONS: Record<ChannelValue, typeof Mail> = {
     WEB_FORM: FileText,
 };
 
-type Props = { ticket: TicketDetail; backHref: string };
+type Props = {
+    ticket: TicketDetail;
+    backHref: string;
+    agents: { id: string; name: string }[];
+    currentAgentId: string;
+};
 
-export function TicketHeader({ ticket, backHref }: Props) {
+export function TicketHeader({ ticket, backHref, agents, currentAgentId }: Props) {
     const ChannelIcon = CHANNEL_ICONS[ticket.channel];
 
     return (
@@ -45,18 +49,26 @@ export function TicketHeader({ ticket, backHref }: Props) {
                 </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-1.5">
-                <TicketStatusBadge status={ticket.status} />
-                <TicketPriorityBadge priority={ticket.priority} />
-                <Badge variant="outline" className="gap-1 font-normal">
-                    <UserRound className="size-3" aria-hidden />
-                    {ticket.assignee?.name ?? "Unassigned"}
-                </Badge>
-                {ticket.tags.map((tag) => (
-                    <Badge key={tag} variant="secondary" className="font-normal">
-                        {tag}
-                    </Badge>
-                ))}
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+                <TicketControls
+                    ticketId={ticket.id}
+                    status={ticket.status}
+                    priority={ticket.priority}
+                    assigneeId={ticket.assigneeId}
+                    agents={agents}
+                    currentAgentId={currentAgentId}
+                />
+                {ticket.tags.length > 0 && (
+                    <ul className="flex flex-wrap gap-1.5" aria-label="Tags">
+                        {ticket.tags.map((tag) => (
+                            <li key={tag}>
+                                <Badge variant="secondary" className="font-normal">
+                                    {tag}
+                                </Badge>
+                            </li>
+                        ))}
+                    </ul>
+                )}
             </div>
         </header>
     );

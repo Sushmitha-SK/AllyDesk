@@ -20,7 +20,7 @@ export async function MessageThread({ ticketId, customerName }: Props) {
                     </li>
                 ))}
             </ol>
-            <ScrollAnchor key={ticketId} />
+            <ScrollAnchor key={messages[messages.length - 1]!.id} />
         </>
     );
 }
