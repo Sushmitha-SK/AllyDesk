@@ -14,7 +14,7 @@ export async function sendReplyAction(input: SendReplyInput): Promise<ActionResu
     if (!parsed.success) {
         return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid reply." };
     }
-    const { ticketId, body } = parsed.data;
+    const { ticketId, body, draftId } = parsed.data;
 
     try {
         const ticket = await db.ticket.findUnique({
@@ -26,12 +26,21 @@ export async function sendReplyAction(input: SendReplyInput): Promise<ActionResu
             return { ok: false, error: "This ticket is closed. Reopen it to reply." };
         }
 
-        await db.$transaction([
-            db.message.create({
+        await db.$transaction(async (tx) => {
+            const message = await tx.message.create({
                 data: { ticketId, authorType: "AGENT", agentId: agent.id, body },
-            }),
-            db.ticket.update({ where: { id: ticketId }, data: { lastMessageAt: new Date() } }),
-        ]);
+                select: { id: true },
+            });
+            await tx.ticket.update({ where: { id: ticketId }, data: { lastMessageAt: new Date() } });
+
+            if (draftId) {
+                // Only an active draft on this same ticket can be approved
+                await tx.aiDraft.updateMany({
+                    where: { id: draftId, ticketId, status: "GENERATED" },
+                    data: { status: "APPROVED", sentMessageId: message.id },
+                });
+            }
+        });
     } catch (error) {
         console.error("sendReplyAction failed", error);
         return { ok: false, error: "Couldn't send your reply. Please try again." };
