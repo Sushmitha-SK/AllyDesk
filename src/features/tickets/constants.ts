@@ -54,3 +54,6 @@ export const CHANNEL_LABELS: Record<ChannelValue, string> = {
     CHAT: "Live chat",
     WEB_FORM: "Web form",
 };
+
+export const TICKET_STATUSES = ["OPEN", "PENDING", "RESOLVED", "CLOSED"] as const;
+export const PRIORITIES = ["LOW", "MEDIUM", "HIGH", "URGENT"] as const;

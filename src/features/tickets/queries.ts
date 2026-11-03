@@ -61,11 +61,13 @@ export async function getTickets(filters: TicketFilters, agentId: string) {
                 customer: { select: { name: true, company: true } },
                 assignee: { select: { name: true } },
                 messages: {
+                    where: { authorType: { not: "SYSTEM" } },
                     select: { body: true, authorType: true },
                     orderBy: { createdAt: "desc" },
                     take: 1,
                 },
             },
+
         }),
         db.ticket.count({ where }),
     ]);
@@ -88,9 +90,17 @@ export const getTicketById = cache(async (id: string) => {
             tags: true,
             createdAt: true,
             customerId: true,
+            assigneeId: true,
             assignee: { select: { name: true, avatarUrl: true } },
             customer: { select: { name: true } },
         },
+    });
+});
+
+export const getAssignableAgents = cache(async () => {
+    return db.agent.findMany({
+        orderBy: { name: "asc" },
+        select: { id: true, name: true },
     });
 });
 
