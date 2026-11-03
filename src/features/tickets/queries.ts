@@ -4,6 +4,7 @@ import type { Prisma } from "@/generated/prisma/client";
 import { db } from "@/lib/db";
 import type { SortOption } from "./constants";
 import type { TicketFilters } from "./schemas";
+import { cache } from "react";
 
 export const PAGE_SIZE = 50;
 
@@ -73,3 +74,24 @@ export async function getTickets(filters: TicketFilters, agentId: string) {
 }
 
 export type TicketListItem = Awaited<ReturnType<typeof getTickets>>["tickets"][number];
+
+export const getTicketById = cache(async (id: string) => {
+    return db.ticket.findUnique({
+        where: { id },
+        select: {
+            id: true,
+            number: true,
+            subject: true,
+            status: true,
+            priority: true,
+            channel: true,
+            tags: true,
+            createdAt: true,
+            customerId: true,
+            assignee: { select: { name: true, avatarUrl: true } },
+            customer: { select: { name: true } },
+        },
+    });
+});
+
+export type TicketDetail = NonNullable<Awaited<ReturnType<typeof getTicketById>>>;

@@ -46,3 +46,11 @@ export const DEFAULT_FILTERS = {
     assignee: "all",
     sort: "latest",
 } as const;
+
+export type ChannelValue = "EMAIL" | "CHAT" | "WEB_FORM";
+
+export const CHANNEL_LABELS: Record<ChannelValue, string> = {
+    EMAIL: "Email",
+    CHAT: "Live chat",
+    WEB_FORM: "Web form",
+};
