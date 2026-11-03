@@ -15,3 +15,20 @@ export function formatRelativeTime(date: Date, now: Date = new Date()): string {
     }
     return "just now";
 }
+
+const dateTime = new Intl.DateTimeFormat("en", { dateStyle: "medium", timeStyle: "short" });
+
+export function formatDateTime(date: Date): string {
+    return dateTime.format(date);
+}
+
+export function getInitials(name: string): string {
+    return (
+        name
+            .split(/\s+/)
+            .filter(Boolean)
+            .slice(0, 2)
+            .map((part) => part[0]!.toUpperCase())
+            .join("") || "?"
+    );
+}
