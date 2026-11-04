@@ -54,7 +54,7 @@ export function ReplyComposer({ ticketId }: { ticketId: string }) {
                 placeholder="Write a reply…"
                 rows={3}
                 maxLength={MAX_LENGTH}
-                disabled={isPending}
+                readOnly={isPending}
                 className="max-h-60 resize-none"
             />
             <div className="flex items-center justify-between gap-3">

@@ -7,6 +7,7 @@ import { formatDateTime } from "@/lib/format";
 import { CHANNEL_LABELS, type ChannelValue } from "../constants";
 import type { TicketDetail } from "../queries";
 import { TicketControls } from "./ticket-controls";
+import { LocalTime } from "@/components/layout/ui-helpers/local-time";
 
 const CHANNEL_ICONS: Record<ChannelValue, typeof Mail> = {
     EMAIL: Mail,
@@ -33,9 +34,9 @@ export function TicketHeader({ ticket, backHref, agents, currentAgentId }: Props
                     </Link>
                 </Button>
                 <div className="min-w-0 space-y-1">
-                    <h1 className="text-lg leading-snug font-semibold tracking-tight text-balance">
+                    <h2 className="text-lg leading-snug font-semibold tracking-tight text-balance">
                         {ticket.subject}
-                    </h1>
+                    </h2>
                     <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
                         <span className="font-mono">#{ticket.number}</span>
                         <span aria-hidden>·</span>
@@ -44,7 +45,9 @@ export function TicketHeader({ ticket, backHref, agents, currentAgentId }: Props
                             {CHANNEL_LABELS[ticket.channel]}
                         </span>
                         <span aria-hidden>·</span>
-                        <span>Opened {formatDateTime(ticket.createdAt)}</span>
+                        <span>
+                            Opened <LocalTime date={ticket.createdAt} />
+                        </span>
                     </p>
                 </div>
             </div>

@@ -17,7 +17,7 @@ export async function TicketListPane({ searchParams, activeId }: Props) {
     return (
         <div>
             <header className="sticky top-0 z-10 space-y-3 border-b bg-background p-3">
-                <h1 className="text-base font-semibold tracking-tight">Inbox</h1>
+                <h2 className="text-base font-semibold tracking-tight">Inbox</h2>
                 <TicketFiltersBar filters={filters} />
             </header>
 
