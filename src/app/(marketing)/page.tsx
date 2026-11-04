@@ -30,7 +30,7 @@ export default function LandingPage() {
                     <span className="grid size-7 place-items-center rounded-md bg-primary text-primary-foreground">
                         <Sparkles className="size-4" aria-hidden />
                     </span>
-                    SupportFlow
+                    AllyDesk
                 </span>
                 <div className="flex items-center gap-2">
                     <ThemeToggle />

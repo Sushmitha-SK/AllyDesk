@@ -48,6 +48,7 @@ next-env.d.ts
 /playwright-report
 .env.test
 
+
 # Agents
 AGENTS.md
 
@@ -59,3 +60,4 @@ AGENTS.md
 # Local databases (if using SQLite with Prisma)
 prisma/*.db
 prisma/*.db-journal
+

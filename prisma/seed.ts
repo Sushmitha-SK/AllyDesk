@@ -9,7 +9,7 @@ const db = new PrismaClient({
 const minsAgo = (m: number) => new Date(Date.now() - m * 60_000);
 
 const agentsData = [
-    { clerkId: "seed_agent_priya", name: "Priya Nair", email: "priya@yopmail.com", role: "ADMIN" as const },
+    { clerkId: "seed_agent_priya", name: "Priya Nair", email: process.env.SEED_ADMIN_EMAIL ?? "priya@supportflow.dev", role: "ADMIN" as const },
     { clerkId: "seed_agent_marcus", name: "Marcus Lee", email: "marcus@supportflow.dev", role: "AGENT" as const },
     { clerkId: "seed_agent_elena", name: "Elena Rossi", email: "elena@supportflow.dev", role: "AGENT" as const },
 ];
