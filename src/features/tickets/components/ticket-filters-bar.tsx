@@ -58,18 +58,26 @@ function FilterSelect<T extends string>({
 
 export function TicketFiltersBar({ filters }: { filters: TicketFilters }) {
     const router = useRouter();
-    const pathname = usePathname(); // keeps the open ticket when filtering at /inbox/[id]
+    const pathname = usePathname();
     const [isPending, startTransition] = useTransition();
     const [current, setOptimistic] = useOptimistic(filters);
     const [text, setText] = useState(filters.q);
+    // The q value the text box currently reflects (typed by the agent or taken from the URL)
+    const [syncedQ, setSyncedQ] = useState(filters.q);
     const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
     useEffect(() => () => clearTimeout(timer.current), []);
 
+    if (!isPending && filters.q !== syncedQ) {
+        setSyncedQ(filters.q);
+        setText(filters.q);
+    }
+
     function push(next: TicketFilters) {
         const qs = serializeFilters(next);
+        setSyncedQ(next.q);
         startTransition(() => {
-            setOptimistic(next); // selects respond instantly, then settle on the server value
+            setOptimistic(next);
             router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
         });
     }

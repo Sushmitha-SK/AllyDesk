@@ -7,5 +7,10 @@ export default function InboxLayout({
   list: React.ReactNode;
   children: React.ReactNode;
 }) {
-  return <SplitPane list={list} detail={children} />;
+  return (
+    <>
+      <h1 className="sr-only">Inbox</h1>
+      <SplitPane list={list} detail={children} />
+    </>
+  );
 }

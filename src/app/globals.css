@@ -18,7 +18,7 @@
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
+  --muted-foreground: oklch(0.5 0 0);
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
@@ -32,16 +32,16 @@
   --sidebar-accent: oklch(0.94 0.02 277);
 
   /* Ticket status */
-  --status-open: oklch(0.55 0.21 259);
-  --status-pending: oklch(0.65 0.17 70);
-  --status-resolved: oklch(0.58 0.15 160);
-  --status-closed: oklch(0.55 0.02 285);
+  --status-open: oklch(0.5 0.2 259);
+  --status-pending: oklch(0.5 0.11 70);
+  --status-resolved: oklch(0.48 0.12 160);
+  --status-closed: oklch(0.5 0.02 285);
 
   /* Ticket priority */
-  --priority-low: oklch(0.55 0.02 285);
-  --priority-medium: oklch(0.55 0.21 259);
-  --priority-high: oklch(0.62 0.2 47);
-  --priority-urgent: oklch(0.58 0.24 25);
+  --priority-low: oklch(0.5 0.02 285);
+  --priority-medium: oklch(0.5 0.2 259);
+  --priority-high: oklch(0.53 0.17 45);
+  --priority-urgent: oklch(0.5 0.22 25);
 }
 
 .dark {
@@ -131,5 +131,17 @@
 
   body {
     @apply bg-background text-foreground antialiased;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

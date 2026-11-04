@@ -29,6 +29,10 @@ export function DraftPanel({ ticketId, initialDraft }: Props) {
     const [isPending, startTransition] = useTransition();
     const abortRef = useRef<AbortController | null>(null);
 
+    const bodyRef = useRef<HTMLTextAreaElement>(null);
+    const focusReply = () => document.getElementById("reply-body")?.focus();
+
+
     useEffect(() => () => abortRef.current?.abort(), []);
 
     function reset() {
@@ -49,6 +53,10 @@ export function DraftPanel({ ticketId, initialDraft }: Props) {
         setDraftId(null);
         setBody("");
         setSources([]);
+        // setDraftId(id);
+        setDraftId(null);
+        setPhase("ready");
+        bodyRef.current?.focus();
 
         try {
             const id = await streamDraft(
@@ -70,6 +78,7 @@ export function DraftPanel({ ticketId, initialDraft }: Props) {
     function stop() {
         abortRef.current?.abort();
         reset();
+        focusReply();
     }
 
     function approve() {
@@ -80,6 +89,7 @@ export function DraftPanel({ ticketId, initialDraft }: Props) {
             if (result.ok) {
                 toast.success("Reply sent");
                 reset();
+                focusReply()
             } else {
                 toast.error(result.error); // keep the draft so nothing is lost
             }
@@ -89,6 +99,7 @@ export function DraftPanel({ ticketId, initialDraft }: Props) {
     function discard() {
         const id = draftId;
         reset();
+        focusReply();
         if (!id) return;
         startTransition(async () => {
             const result = await discardDraftAction(id);
@@ -137,6 +148,7 @@ export function DraftPanel({ ticketId, initialDraft }: Props) {
                 AI draft (editable)
             </label>
             <Textarea
+                ref={bodyRef}
                 id="draft-body"
                 value={body}
                 onChange={(e) => setBody(e.target.value)}

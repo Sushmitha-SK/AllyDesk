@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatDateTime, getInitials } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { MessageItem } from "../queries";
+import { LocalTime } from "@/components/layout/ui-helpers/local-time";
 
 type Props = { message: MessageItem; customerName: string };
 
@@ -9,7 +10,7 @@ export function MessageBubble({ message, customerName }: Props) {
     if (message.authorType === "SYSTEM") {
         return (
             <p className="py-1 text-center text-xs text-muted-foreground">
-                {message.body} · <time dateTime={message.createdAt.toISOString()}>{formatDateTime(message.createdAt)}</time>
+                {message.body} · <LocalTime date={message.createdAt} />
             </p>
         );
     }
@@ -28,11 +29,11 @@ export function MessageBubble({ message, customerName }: Props) {
                 <p className="text-xs text-muted-foreground">
                     <span className="font-medium text-foreground">{name}</span>
                     {" · "}
-                    <time dateTime={message.createdAt.toISOString()}>{formatDateTime(message.createdAt)}</time>
+                    <LocalTime date={message.createdAt} />
                 </p>
                 <div
                     className={cn(
-                        "rounded-lg px-3 py-2 text-sm leading-relaxed break-words whitespace-pre-wrap",
+                        "rounded-lg px-3 py-2 text-sm leading-relaxed wrap-break-word whitespace-pre-wrap",
                         fromAgent ? "rounded-tr-sm bg-primary/10" : "rounded-tl-sm bg-muted",
                     )}
                 >

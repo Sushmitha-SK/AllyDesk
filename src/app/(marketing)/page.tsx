@@ -1,69 +1,71 @@
-import { ThemeToggle } from "@/components/theme/theme-toggle";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { ArrowRight, BookOpen, Command, Sparkles } from "lucide-react";
 
-const statuses = [
-    { label: "Open", cls: "bg-status-open/15 text-status-open" },
-    { label: "Pending", cls: "bg-status-pending/15 text-status-pending" },
-    { label: "Resolved", cls: "bg-status-resolved/15 text-status-resolved" },
-    { label: "Closed", cls: "bg-status-closed/15 text-status-closed" },
-];
+import { ThemeToggle } from "@/components/theme/theme-toggle";
+import { Button } from "@/components/ui/button";
 
-const priorities = [
-    { label: "Low", cls: "bg-priority-low/15 text-priority-low" },
-    { label: "Medium", cls: "bg-priority-medium/15 text-priority-medium" },
-    { label: "High", cls: "bg-priority-high/15 text-priority-high" },
-    { label: "Urgent", cls: "bg-priority-urgent/15 text-priority-urgent" },
-];
+const FEATURES = [
+    {
+        icon: Sparkles,
+        title: "AI reply drafts",
+        text: "Streaming drafts you can edit, retry or discard. Nothing sends without an agent's approval.",
+    },
+    {
+        icon: BookOpen,
+        title: "Grounded in your help center",
+        text: "Each draft shows the knowledge-base articles it was given, so agents can verify before sending.",
+    },
+    {
+        icon: Command,
+        title: "Built for the keyboard",
+        text: "Command palette, j/k navigation and quick actions keep agents out of the mouse.",
+    },
+] as const;
 
-export default function Home() {
+export default function LandingPage() {
     return (
-        <main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-6 p-6">
-            <header className="flex items-center justify-between">
-                <h1 className="text-2xl font-semibold tracking-tight">AllyDesk</h1>
+        <div className="mx-auto flex min-h-screen max-w-4xl flex-col px-6">
+            <header className="flex h-16 items-center justify-between">
+                <span className="flex items-center gap-2 font-semibold tracking-tight">
+                    <span className="grid size-7 place-items-center rounded-md bg-primary text-primary-foreground">
+                        <Sparkles className="size-4" aria-hidden />
+                    </span>
+                    SupportFlow
+                </span>
                 <div className="flex items-center gap-2">
                     <ThemeToggle />
-                    <Button variant="outline" asChild>
+                    <Button variant="ghost" asChild>
                         <Link href="/sign-in">Sign in</Link>
-                    </Button>
-                    <Button asChild>
-                        <Link href="/inbox">Open inbox</Link>
                     </Button>
                 </div>
             </header>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>Design system check</CardTitle>
-                    <CardDescription>Toggle the theme and confirm everything adapts.</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="flex flex-wrap gap-2">
-                        <Button>Primary</Button>
-                        <Button variant="secondary">Secondary</Button>
-                        <Button variant="outline">Outline</Button>
-                        <Button variant="destructive">Destructive</Button>
-                    </div>
-                    <Input placeholder="Search tickets…" />
-                    <div className="flex flex-wrap gap-2">
-                        {statuses.map((s) => (
-                            <Badge key={s.label} className={`border-transparent ${s.cls}`}>
-                                {s.label}
-                            </Badge>
-                        ))}
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                        {priorities.map((p) => (
-                            <Badge key={p.label} className={`border-transparent ${p.cls}`}>
-                                {p.label}
-                            </Badge>
-                        ))}
-                    </div>
-                </CardContent>
-            </Card>
-        </main>
+            <main className="flex flex-1 flex-col justify-center gap-12 py-16">
+                <div className="max-w-2xl space-y-5">
+                    <h1 className="text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
+                        Answer customers faster, with an AI that shows its sources.
+                    </h1>
+                    <p className="text-lg text-muted-foreground text-pretty">
+                        A support workspace with a server-rendered inbox, live ticket controls and AI-assisted
+                        replies that agents always review.
+                    </p>
+                    <Button size="lg" asChild>
+                        <Link href="/inbox">
+                            Open the workspace <ArrowRight className="size-4" aria-hidden />
+                        </Link>
+                    </Button>
+                </div>
+
+                <ul className="grid gap-4 sm:grid-cols-3">
+                    {FEATURES.map(({ icon: Icon, title, text }) => (
+                        <li key={title} className="space-y-2 rounded-lg border bg-card p-4">
+                            <Icon className="size-5 text-primary" aria-hidden />
+                            <h2 className="font-medium">{title}</h2>
+                            <p className="text-sm text-muted-foreground">{text}</p>
+                        </li>
+                    ))}
+                </ul>
+            </main>
+        </div>
     );
 }

@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { TicketStatusBadge } from "@/features/tickets/components/ticket-status-badge";
 import { formatDateTime, formatRelativeTime, getInitials } from "@/lib/format";
 import { getCustomerContext } from "../queries";
+import { LocalTime } from "@/components/layout/ui-helpers/local-time";
 
 type Props = {
     customerId: string;
@@ -51,7 +52,9 @@ export async function CustomerContextPanel({ customerId, currentTicketId, queryS
                 <div className="flex items-center gap-2">
                     <dt className="sr-only">Customer since</dt>
                     <CalendarDays className="size-4 shrink-0 text-muted-foreground" aria-hidden />
-                    <dd>Since {formatDateTime(customer.createdAt).split(",").slice(0, 2).join(",")}</dd>
+                    <dd>
+                        Since <LocalTime date={customer.createdAt} variant="date" />
+                    </dd>
                 </div>
             </dl>
 
