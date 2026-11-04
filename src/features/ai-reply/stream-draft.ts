@@ -10,7 +10,8 @@ export async function streamDraft(
     ticketId: string,
     handlers: Handlers,
     signal: AbortSignal,
-): Promise<string> {
+): Promise<{ draftId: string; body: string }> {
+
     const res = await fetch("/api/ai/reply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -23,7 +24,9 @@ export async function streamDraft(
         throw new Error(data?.error ?? "Couldn't generate a draft.");
     }
 
-    let draftId: string | null = null;
+    let result: { draftId: string; body: string } | null = null;
+    let streamedBody = "";
+
 
     function handleLine(line: string) {
         if (!line.trim()) return;
@@ -33,10 +36,14 @@ export async function streamDraft(
                 handlers.onSources(event.sources);
                 break;
             case "delta":
+                streamedBody += event.text;
                 handlers.onDelta(event.text);
                 break;
             case "done":
-                draftId = event.draftId;
+                result = {
+                    draftId: event.draftId,
+                    body: "body" in event ? event.body : streamedBody,
+                };
                 break;
             case "error":
                 throw new Error(event.message);
@@ -57,6 +64,6 @@ export async function streamDraft(
     }
     handleLine(buffer + decoder.decode());
 
-    if (!draftId) throw new Error("The draft was interrupted. Please try again.");
-    return draftId;
+    if (!result) throw new Error("The draft was interrupted. Please try again.");
+    return result;
 }

@@ -7,6 +7,8 @@ import { getCurrentAgent } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { sendReplySchema, type SendReplyInput } from "./schemas";
 
+import { stripCitations } from "@/features/ai-reply/citations";
+
 export async function sendReplyAction(input: SendReplyInput): Promise<ActionResult> {
     const agent = await getCurrentAgent();
 
@@ -14,8 +16,10 @@ export async function sendReplyAction(input: SendReplyInput): Promise<ActionResu
     if (!parsed.success) {
         return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid reply." };
     }
-    const { ticketId, body, draftId } = parsed.data;
-
+    const { ticketId, draftId } = parsed.data;
+    const body = draftId ? stripCitations(parsed.data.body).trim() : parsed.data.body;
+    if (!body) return { ok: false, error: "Write a reply before sending." };
+    
     try {
         const ticket = await db.ticket.findUnique({
             where: { id: ticketId },

@@ -4,9 +4,9 @@ const isPublicRoute = createRouteMatcher([
     "/",
     "/sign-in(.*)",
     "/sign-up(.*)",
-    "/api/webhooks(.*)", // verified by signature, not session
+    "/api/webhooks(.*)", // verified by signature
+    "/api/cron(.*)",     // verified by CRON_SECRET
 ]);
-
 export default clerkMiddleware(async (auth, req) => {
     if (!isPublicRoute(req)) await auth.protect();
 });

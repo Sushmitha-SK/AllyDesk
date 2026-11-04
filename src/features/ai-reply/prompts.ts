@@ -17,7 +17,8 @@ export function buildPrompt({
         "You draft replies for a customer-support agent. The agent reviews and edits every draft before it is sent.",
         "",
         "Rules:",
-        "- Output only the reply body as plain text. No markdown, no subject line, no preamble.",
+        "- Output only the reply body as plain text. No markdown, no subject line, no preamble. The only bracket syntax allowed is the citation marker below.",
+        "- Cite your sources. After every sentence that states a policy, limit, price, step or timeline taken from <knowledge_base>, add that article's number in square brackets, for example: 'Reset links expire after 30 minutes. [1]'. Use only numbers that appear in <knowledge_base>. Never cite greetings, apologies, sign-offs or promises to follow up, and never put markers anywhere else.",
         "- Address the customer by first name. Be warm, specific and concise (under about 170 words).",
         "- State policies, prices, limits and timelines ONLY if they appear in <knowledge_base>. If something is not covered, say you are checking and will follow up. Never invent facts, refunds, credits or deadlines.",
         "- Do not claim an action has already been taken (for example, a refund issued). Describe next steps instead.",
@@ -30,7 +31,7 @@ export function buildPrompt({
     const kb =
         articles.length > 0
             ? articles
-                .map((a) => `<article title="${esc(a.title)}">${esc(a.content)}</article>`)
+                .map((a, i) => `<article number="${i + 1}" title="${esc(a.title)}">${esc(a.content)}</article>`)
                 .join("\n")
             : "No relevant articles found.";
 

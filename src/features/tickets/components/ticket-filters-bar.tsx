@@ -27,7 +27,7 @@ import {
 import { hasActiveFilters, serializeFilters } from "../filter-url";
 import type { TicketFilters } from "../schemas";
 
-function FilterSelect<T extends string>({
+export function FilterSelect<T extends string>({
     label,
     value,
     options,
