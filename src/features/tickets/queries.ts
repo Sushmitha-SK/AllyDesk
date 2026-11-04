@@ -105,3 +105,35 @@ export const getAssignableAgents = cache(async () => {
 });
 
 export type TicketDetail = NonNullable<Awaited<ReturnType<typeof getTicketById>>>;
+
+
+export async function searchTicketsForPalette(query: string) {
+    const term = query.trim();
+    const contains = { contains: term, mode: "insensitive" as const };
+    const asNumber = /^#?\d+$/.test(term) ? Number(term.replace("#", "")) : null;
+
+    const where: Prisma.TicketWhereInput = term
+        ? {
+            OR: [
+                { subject: contains },
+                { customer: { name: contains } },
+                ...(asNumber !== null && asNumber <= 2_147_483_647 ? [{ number: asNumber }] : []),
+            ],
+        }
+        : {}; // empty query = most recent tickets
+
+    return db.ticket.findMany({
+        where,
+        orderBy: { lastMessageAt: "desc" },
+        take: 8,
+        select: {
+            id: true,
+            number: true,
+            subject: true,
+            status: true,
+            customer: { select: { name: true } },
+        },
+    });
+}
+
+export type TicketSearchHit = Awaited<ReturnType<typeof searchTicketsForPalette>>[number];

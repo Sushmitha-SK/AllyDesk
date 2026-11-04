@@ -4,6 +4,7 @@ import { ThemeToggle } from "@/components/theme/theme-toggle";
 import type { Agent } from "@/generated/prisma/client";
 import { MobileNav } from "./mobile-nav";
 import { SidebarContent } from "./sidebar-content";
+import { CommandPaletteTrigger } from "@/features/shortcuts/components/command-palette-trigger";
 
 type Props = { agent: Pick<Agent, "name" | "email" | "role"> };
 
@@ -13,10 +14,8 @@ export function Topbar({ agent }: Props) {
             <MobileNav>
                 <SidebarContent agent={agent} />
             </MobileNav>
-
-            {/* Step 10 adds the command palette trigger here */}
+            <CommandPaletteTrigger />
             <div className="flex-1" />
-
             <ThemeToggle />
             <UserButton />
         </header>

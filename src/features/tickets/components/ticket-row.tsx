@@ -22,6 +22,7 @@ export function TicketRow({ ticket, href, active, now }: Props) {
     return (
         <Link
             href={href}
+            data-ticket-row
             aria-current={active ? "page" : undefined}
             className={cn(
                 "block space-y-1.5 px-4 py-3 transition-colors hover:bg-accent/60",
