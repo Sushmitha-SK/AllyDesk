@@ -38,8 +38,9 @@ export async function getLatestDraft(ticketId: string): Promise<InitialDraft | n
             id: true,
             body: true,
             sources: {
-                orderBy: { relevance: "desc" },
+                orderBy: [{ position: "asc" }, { relevance: "desc" }],
                 select: {
+                    position: true,
                     snippet: true,
                     relevance: true,
                     article: { select: { id: true, slug: true, title: true } },
@@ -52,12 +53,13 @@ export async function getLatestDraft(ticketId: string): Promise<InitialDraft | n
     return {
         id: draft.id,
         body: draft.body,
-        sources: draft.sources.map((s) => ({
+        sources: draft.sources.map((s, i) => ({
             articleId: s.article.id,
             slug: s.article.slug,
             title: s.article.title,
             snippet: s.snippet,
             relevance: s.relevance,
+            position: s.position || i + 1,
         })),
     };
 }

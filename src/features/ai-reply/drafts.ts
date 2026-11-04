@@ -29,10 +29,11 @@ export async function saveDraft({
                 body,
                 model,
                 sources: {
-                    create: articles.map((a) => ({
+                    create: articles.map((a, i) => ({
                         articleId: a.articleId,
                         snippet: a.snippet,
                         relevance: a.relevance,
+                        position: i + 1,
                     })),
                 },
             },

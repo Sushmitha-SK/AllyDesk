@@ -10,6 +10,8 @@ import { checkDraftRateLimit } from "@/features/ai-reply/rate-limit";
 import { buildRetrievalQuery, retrieveArticles } from "@/features/ai-reply/retrieval";
 import type { StreamEvent } from "@/features/ai-reply/types";
 import { db } from "@/lib/db";
+import { keepValidCitations } from "@/features/ai-reply/citations";
+
 
 export const maxDuration = 60;
 
@@ -59,12 +61,9 @@ export async function POST(req: NextRequest) {
             try {
                 send({
                     type: "sources",
-                    sources: articles.map(({ articleId, slug, title, snippet, relevance }) => ({
-                        articleId,
-                        slug,
-                        title,
-                        snippet,
-                        relevance,
+                    // sources event: include the number
+                    sources: articles.map(({ articleId, slug, title, snippet, relevance }, i) => ({
+                        articleId, slug, title, snippet, relevance, position: i + 1,
                     })),
                 });
 
@@ -76,7 +75,7 @@ export async function POST(req: NextRequest) {
 
                 if (req.signal.aborted) return; // stopped by the agent: save nothing
 
-                const body = text.trim().slice(0, 5000);
+                const body = keepValidCitations(text.trim(), articles.length).slice(0, 5000);
                 if (!body) {
                     send({ type: "error", message: "The model returned an empty reply. Try again." });
                     return;
@@ -89,7 +88,7 @@ export async function POST(req: NextRequest) {
                     model: GEMINI_MODEL,
                     articles,
                 });
-                send({ type: "done", draftId: draft.id });
+                send({ type: "done", draftId: draft.id, body }); // the canonical text replaces the streamed text
             } catch (error) {
                 if (!req.signal.aborted) {
                     console.error("AI draft generation failed", error);

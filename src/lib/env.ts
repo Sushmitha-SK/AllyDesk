@@ -8,6 +8,9 @@ const schema = z.object({
     GEMINI_API_KEY: z.string().min(1),
     GEMINI_MODEL: z.string().min(1).default("gemini-2.5-flash"),
     NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+    CRON_SECRET: z.string().min(16).optional(),
+    DEMO_RESET: z.enum(["true", "false"]).default("false"),
+    SEED_ADMIN_EMAIL: z.string().email().optional(),
 });
 
 const parsed = schema.safeParse(process.env);

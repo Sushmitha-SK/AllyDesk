@@ -151,7 +151,7 @@ model DraftSource {
   articleId String
   snippet   String
   relevance Float  @default(0)
-
+  position  Int    @default(0)
   draft   AiDraft          @relation(fields: [draftId], references: [id], onDelete: Cascade)
   article KnowledgeArticle @relation(fields: [articleId], references: [id], onDelete: Cascade)
 

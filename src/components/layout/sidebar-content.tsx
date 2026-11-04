@@ -4,6 +4,7 @@ import { Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { Agent } from "@/generated/prisma/client";
 import { NavLinks } from "./nav-links";
+import { env } from "@/lib/env";
 
 type Props = { agent: Pick<Agent, "name" | "email" | "role"> };
 
@@ -30,6 +31,10 @@ export function SidebarContent({ agent }: Props) {
                     {agent.role === "ADMIN" ? "Admin" : "Agent"}
                 </Badge>
             </div>
+
+            {env.DEMO_RESET === "true" && (
+                <p className="mt-3 text-xs text-muted-foreground">Demo data resets daily at 03:00 UTC.</p>
+            )}
         </div>
     );
 }

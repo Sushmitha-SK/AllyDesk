@@ -4,6 +4,7 @@ export type DraftSource = {
     title: string;
     snippet: string;
     relevance: number; // 0..1
+    position: number; // the n in [n]
 };
 
 export type InitialDraft = {
@@ -17,4 +18,5 @@ export type StreamEvent =
     | { type: "sources"; sources: DraftSource[] }
     | { type: "delta"; text: string }
     | { type: "done"; draftId: string }
-    | { type: "error"; message: string };
+    | { type: "error"; message: string }
+    | { type: "done"; draftId: string; body: string };
