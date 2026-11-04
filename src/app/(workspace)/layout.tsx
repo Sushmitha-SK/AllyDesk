@@ -1,5 +1,6 @@
 import { SidebarContent } from "@/components/layout/sidebar-content";
 import { Topbar } from "@/components/layout/topbar";
+import { ShortcutsRoot } from "@/features/shortcuts/components/shortcuts-root";
 import { getCurrentAgent } from "@/lib/auth";
 
 export default async function WorkspaceLayout({
@@ -19,6 +20,8 @@ export default async function WorkspaceLayout({
                 <Topbar agent={agent} />
                 <main className="min-h-0 flex-1 overflow-y-auto">{children}</main>
             </div>
+
+            <ShortcutsRoot currentAgentId={agent.id} />
         </div>
     );
 }

@@ -9,6 +9,9 @@ import { db } from "@/lib/db";
 import { PRIORITY_LABELS, STATUS_LABELS } from "./constants";
 import { updateTicketSchema, type UpdateTicketInput } from "./schemas";
 
+import { z } from "zod";
+import { searchTicketsForPalette } from "./queries";
+
 export async function updateTicketAction(input: UpdateTicketInput): Promise<ActionResult> {
     const agent = await getCurrentAgent(); // redirects to /sign-in if the session is gone
 
@@ -75,4 +78,18 @@ export async function updateTicketAction(input: UpdateTicketInput): Promise<Acti
 
     revalidatePath("/inbox", "layout");
     return { ok: true };
+}
+
+export async function searchTicketsAction(query: string) {
+    await getCurrentAgent();
+
+    const parsed = z.string().max(100).safeParse(query);
+    if (!parsed.success) return [];
+
+    try {
+        return await searchTicketsForPalette(parsed.data);
+    } catch (error) {
+        console.error("searchTicketsAction failed", error);
+        return [];
+    }
 }
