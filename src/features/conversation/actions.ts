@@ -19,7 +19,7 @@ export async function sendReplyAction(input: SendReplyInput): Promise<ActionResu
     const { ticketId, draftId } = parsed.data;
     const body = draftId ? stripCitations(parsed.data.body).trim() : parsed.data.body;
     if (!body) return { ok: false, error: "Write a reply before sending." };
-    
+
     try {
         const ticket = await db.ticket.findUnique({
             where: { id: ticketId },
@@ -30,15 +30,31 @@ export async function sendReplyAction(input: SendReplyInput): Promise<ActionResu
             return { ok: false, error: "This ticket is closed. Reopen it to reply." };
         }
 
+        const autoPending =
+            (agent as typeof agent & { pendingAfterReply?: boolean }).pendingAfterReply === true &&
+            ticket.status === "OPEN";
+
+
         await db.$transaction(async (tx) => {
             const message = await tx.message.create({
                 data: { ticketId, authorType: "AGENT", agentId: agent.id, body },
                 select: { id: true },
             });
-            await tx.ticket.update({ where: { id: ticketId }, data: { lastMessageAt: new Date() } });
+            await tx.ticket.update({
+                where: { id: ticketId },
+                data: { lastMessageAt: new Date(), ...(autoPending ? { status: "PENDING" as const } : {}) },
+            });
+            if (autoPending) {
+                await tx.message.create({
+                    data: {
+                        ticketId,
+                        authorType: "SYSTEM",
+                        body: `${agent.name} replied, so the ticket was set to Pending`,
+                    },
+                });
+            }
 
             if (draftId) {
-                // Only an active draft on this same ticket can be approved
                 await tx.aiDraft.updateMany({
                     where: { id: draftId, ticketId, status: "GENERATED" },
                     data: { status: "APPROVED", sentMessageId: message.id },

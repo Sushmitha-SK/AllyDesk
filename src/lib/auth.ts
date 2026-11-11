@@ -28,5 +28,8 @@ export const getCurrentAgent = cache(async () => {
         email,
         name: [user.firstName, user.lastName].filter(Boolean).join(" ") || email.split("@")[0]!,
         avatarUrl: user.imageUrl,
+        signature: "",
+        pendingAfterReply: false,
+        aiDraftsEnabled: false
     });
 });

@@ -56,11 +56,15 @@ model Agent {
   email     String    @unique
   avatarUrl String?
   role      AgentRole @default(AGENT)
+  signature         String?
+  pendingAfterReply Boolean @default(false)
+  aiDraftsEnabled   Boolean @default(true)
   createdAt DateTime  @default(now())
 
   tickets  Ticket[]
   messages Message[]
   drafts   AiDraft[]
+
 }
 
 model Customer {

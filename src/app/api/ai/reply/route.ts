@@ -23,10 +23,13 @@ export async function POST(req: NextRequest) {
 
     const agent = await db.agent.findUnique({
         where: { clerkId: userId },
-        select: { id: true, name: true },
+        select: { id: true, name: true, signature: true, aiDraftsEnabled: true },
     });
-    if (!agent) return Response.json({ error: "Please sign in again." }, { status: 401 });
 
+    if (!agent) return Response.json({ error: "Please sign in again." }, { status: 401 });
+    if (!agent.aiDraftsEnabled) {
+        return Response.json({ error: "AI drafts are turned off in your settings." }, { status: 403 });
+    }
     const parsed = bodySchema.safeParse(await req.json().catch(() => null));
     if (!parsed.success) return Response.json({ error: "Invalid request." }, { status: 400 });
     const { ticketId } = parsed.data;
@@ -45,7 +48,11 @@ export async function POST(req: NextRequest) {
     if (!context) return Response.json({ error: "Ticket not found." }, { status: 404 });
 
     const articles = await retrieveArticles(buildRetrievalQuery(context));
-    const { system, prompt } = buildPrompt({ agentName: agent.name, context, articles });
+    const { system, prompt } = buildPrompt({
+        signOff: String(agent.signature ?? "").trim() || agent.name,
+        context,
+        articles,
+    });
 
     const encoder = new TextEncoder();
 

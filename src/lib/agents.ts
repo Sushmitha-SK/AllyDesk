@@ -6,6 +6,9 @@ type SyncInput = {
     email: string;
     name: string;
     avatarUrl?: string | null;
+    signature?: string | null;
+    pendingAfterReply?: boolean;
+    aiDraftsEnabled?: boolean;
 };
 
 /**
@@ -15,11 +18,12 @@ type SyncInput = {
  * 3. Otherwise        -> create a new agent
  */
 export async function syncAgent({ clerkId, email, name, avatarUrl }: SyncInput) {
+
     const byClerkId = await db.agent.findUnique({ where: { clerkId } });
     if (byClerkId) {
         return db.agent.update({
             where: { id: byClerkId.id },
-            data: { name, avatarUrl: avatarUrl ?? null },
+            data: { avatarUrl: avatarUrl ?? null },
         });
     }
 
