@@ -36,7 +36,7 @@ export default async function CustomerPage({ params, searchParams }: Props) {
     const now = new Date();
 
     return (
-        <div className="mx-auto max-w-4xl space-y-6 p-4 md:p-6">
+        <div className="mx-auto max-w-8xl space-y-6 p-4 md:p-6">
             <Button variant="ghost" size="sm" asChild className="-ml-2">
                 <Link href={qs ? `/customers?${qs}` : "/customers"}>
                     <ArrowLeft className="size-4" aria-hidden /> All customers

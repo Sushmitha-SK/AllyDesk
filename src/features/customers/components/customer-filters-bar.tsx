@@ -1,5 +1,6 @@
 "use client";
 
+
 import { Loader2, Search } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useOptimistic, useRef, useState, useTransition } from "react";
@@ -89,3 +90,5 @@ export function CustomerFiltersBar({ filters }: { filters: CustomerFilters }) {
         </div>
     );
 }
+
+

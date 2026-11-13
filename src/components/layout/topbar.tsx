@@ -10,7 +10,7 @@ type Props = { agent: Pick<Agent, "name" | "email" | "role"> };
 
 export function Topbar({ agent }: Props) {
     return (
-        <header className="flex h-14 shrink-0 items-center gap-2 border-b bg-background px-3 md:px-4">
+        <header className="flex h-15.5 shrink-0 items-center gap-2 border-b bg-background px-3 md:px-4">
             <MobileNav>
                 <SidebarContent agent={agent} />
             </MobileNav>
