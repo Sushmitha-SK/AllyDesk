@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Inter, League_Spartan } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -15,6 +15,16 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+});
+
+const leagueSpartan = League_Spartan({
+  variable: "--font-league-spartan",
+  subsets: ["latin"],
+})
 
 export const metadata: Metadata = {
   title: { default: "AllyDesk", template: "%s · AllyDesk" },
@@ -35,7 +45,7 @@ export default function RootLayout({
   return (
     <ClerkProvider appearance={{ theme: shadcn }}>
       <html lang="en" suppressHydrationWarning>
-        <body className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
+        <body className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${leagueSpartan.variable}`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

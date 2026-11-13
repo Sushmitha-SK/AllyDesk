@@ -41,7 +41,7 @@ export default async function SettingsPage() {
     const team = agent.role === "ADMIN" ? await getTeam() : [];
 
     return (
-        <div className="mx-auto max-w-3xl space-y-6 p-4 md:p-6">
+        <div className="mx-auto max-w-8xl space-y-6 p-4 md:p-6">
             <header>
                 <h1 className="text-xl font-semibold tracking-tight">Settings</h1>
                 <p className="mt-1 text-sm text-muted-foreground">Your profile, preferences and workspace.</p>

@@ -18,7 +18,7 @@ export default async function CustomersPage({
     const filters = parseCustomerFilters(await searchParams);
 
     return (
-        <div className="mx-auto max-w-5xl space-y-4 p-4 md:p-6">
+        <div className="mx-auto max-w-7xl space-y-4 p-4 md:p-6">
             <header>
                 <h1 className="text-xl font-semibold tracking-tight">Customers</h1>
                 <p className="mt-1 text-sm text-muted-foreground">
