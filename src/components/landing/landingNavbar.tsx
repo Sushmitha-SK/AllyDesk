@@ -12,7 +12,7 @@ const NAV_LINKS = [
     { label: "Features", href: "#features" },
     { label: "Workspace", href: "#workspace" },
     { label: "Security", href: "#security" },
-    { label: "Pricing", href: "#pricing" },
+    { label: "FAQ", href: "#faq" },
 ];
 
 function LogoMark({ className }: { className?: string }) {
@@ -37,7 +37,7 @@ export function LandingNavbar() {
         <div className="flex justify-center px-3 pt-4 sm:px-4 sm:pt-6">
             <header className="relative flex w-full max-w-215 items-center rounded-full border border-neutral-200 bg-card py-2 pl-3 pr-2 shadow-sm dark:border-border">
                 {/* Logo */}
-            
+
                 <Link href="/" className="flex shrink-0 items-center gap-2">
                     <Image
                         src={assets.logoIcon.src}
