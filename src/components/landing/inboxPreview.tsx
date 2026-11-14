@@ -1,6 +1,8 @@
 import { Globe2, Inbox, Search, Send, Settings, Sparkles, Users } from 'lucide-react'
 import React from 'react'
 import { Button } from '../ui/button'
+import Image from 'next/image'
+import { assets } from '@/app/assets/assets'
 
 export default function InboxPreview() {
     return (
@@ -29,8 +31,16 @@ export default function InboxPreview() {
                             <div className="hidden md:flex md:col-span-2 flex-col border-r border-border/60 bg-sidebar p-3 justify-between">
                                 <div className="space-y-4">
                                     <div className="flex items-center gap-2 px-2 pt-1">
-                                        <div className="size-6 rounded bg-primary flex items-center justify-center text-white font-bold text-[10px]">AD</div>
-                                        <span className="font-semibold text-foreground text-sm tracking-tight">AllyDesk</span>
+                                        <Image
+                                            src={assets.logoIcon.src}
+                                            alt="AllyDesk"
+                                            width={32}
+                                            height={28}
+                                            className="h-6 w-7 sm:h-7 sm:w-8"
+                                        />
+                                        <span className="text-base font-leagueSpartan font-bold tracking-tight text-foreground">
+                                            AllyDesk
+                                        </span>
                                     </div>
                                     <div className="space-y-1 pt-2">
                                         <div className="flex items-center gap-2 rounded-md bg-primary/15 text-primary font-medium px-2.5 py-1.5">
