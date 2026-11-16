@@ -48,7 +48,7 @@ export default function Hero() {
                     href="/inbox"
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
-                    className="group inline-flex items-center gap-3 rounded-full bg-[#0b0f1a] py-2.5 pl-6 pr-2 text-[14px] font-medium text-white shadow-xl shadow-black/10"
+                    className="group inline-flex items-center gap-3 rounded-full bg-foreground py-2.5 pl-6 pr-2 text-[14px] font-medium text-white shadow-xl shadow-black/10"
                 >
                     Open live workspace
                     <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/15 transition-transform group-hover:translate-x-0.5">

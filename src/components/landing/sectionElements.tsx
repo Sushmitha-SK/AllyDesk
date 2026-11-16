@@ -5,7 +5,6 @@ import { Reveal } from "./motion";
 
 interface SectionHeadingProps {
     pill: string;
-    icon: LucideIcon;
     title: React.ReactNode;
     children?: ReactNode;
     align?: "center" | "left";
@@ -13,15 +12,13 @@ interface SectionHeadingProps {
 
 export function SectionHeading({
     pill,
-    icon: Icon,
     title,
     children,
     align = "center",
 }: SectionHeadingProps) {
     return (
         <Reveal className={align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-xl"}>
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm font-medium text-primary">
-                <Icon className="size-4" aria-hidden />
+            <span className="inline-flex items-center gap-2  text-sm font-semibold text-primary">
                 {pill}
             </span>
             <h2 className="mt-5 text-balance bg-linear-to-b from-foreground to-foreground/65 bg-clip-text text-3xl font-semibold tracking-tight text-transparent sm:text-5xl sm:leading-[1.08]">
@@ -29,8 +26,7 @@ export function SectionHeading({
             </h2>
             {children && (
                 <p
-                    className={`mt-5 text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg ${align === "center" ? "mx-auto max-w-xl" : ""}`}
-                >
+                    className={`mt-5 text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg ${align === "center" ? "mx-auto max-w-xl" : ""}`}>
                     {children}
                 </p>
             )}

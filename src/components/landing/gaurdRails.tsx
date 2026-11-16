@@ -8,11 +8,9 @@ export default function Guardrails() {
     return (
         <section className="px-4 pb-24 sm:px-8 sm:pb-32">
             <div className="mx-auto max-w-6xl">
-                {/* Header Section: Centered */}
                 <div className="mx-auto mb-12 max-w-2xl text-center sm:mb-16">
                     <SectionHeading
                         pill="Guardrails"
-                        icon={ShieldCheck}
                         title="Helpful, but never in charge"
                         align="center"
                     >
