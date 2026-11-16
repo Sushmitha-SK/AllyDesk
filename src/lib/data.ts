@@ -52,7 +52,7 @@ export const TRUST: { icon: LucideIcon; title: string; body: string }[] = [
     {
         icon: Users,
         title: "Roles for your team",
-        body: "Admins manage the workspace and Agents answer tickets, so people only get the access they need.",
+        body: "Admins manage the workspace, Agents handle tickets. Everyone gets only the access needed.",
     },
     {
         icon: ShieldCheck,
