@@ -512,6 +512,8 @@ const TABS: {
         },
     ];
 
+
+
 export function WorkspaceTabs() {
     const [active, setActive] = useState(TABS[0]!.id);
     const tab = TABS.find((t) => t.id === active) ?? TABS[0]!;
@@ -561,15 +563,21 @@ export function WorkspaceTabs() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.3, ease }}
-                        className="grid items-center gap-8 lg:grid-cols-[1fr_1.35fr]"
+                        className="relative"
                     >
-                        <div>
-                            <h3 className="text-2xl font-semibold tracking-tight text-foreground">{tab.title}</h3>
-                            <p className="mt-3 text-base leading-relaxed text-muted-foreground">{tab.body}</p>
-                        </div>
-                        <div className="relative">
-                            <div aria-hidden className="absolute -inset-4 -z-10 rounded-3xl bg-primary/10 blur-2xl" />
-                            <div className={`surfcaeCard overflow-hidden`}>{tab.mock()}</div>
+                        {/* Background Glow Effect for the whole panel */}
+                        <div aria-hidden className="absolute -inset-4 -z-10 rounded-3xl bg-primary/10 blur-2xl" />
+
+                        {/* Full Panel Card Container */}
+                        <div className="grid items-center gap-8 rounded-3xl border border-border bg-card p-8 shadow-xl lg:grid-cols-[1fr_1.35fr] lg:p-10">
+                            <div>
+                                <h3 className="text-2xl font-semibold tracking-tight text-foreground">{tab.title}</h3>
+                                <p className="mt-3 text-base leading-relaxed text-muted-foreground">{tab.body}</p>
+                            </div>
+                            
+                            <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-background/50 p-2 shadow-inner">
+                                {tab.mock()}
+                            </div>
                         </div>
                     </motion.div>
                 </AnimatePresence>
@@ -577,7 +585,6 @@ export function WorkspaceTabs() {
         </div>
     );
 }
-
 /* =========================================================================
    FAQ accordion
 ========================================================================= */
@@ -654,3 +661,4 @@ export function Faq() {
         </div>
     );
 }
+
