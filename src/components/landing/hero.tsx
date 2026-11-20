@@ -1,31 +1,59 @@
 "use client";
 
-import { ArrowRight, ChevronRight, PlayCircle, ShieldCheck } from "lucide-react";
+import { ArrowRight, Database, PlayCircle, ShieldCheck } from "lucide-react";
 
 import { HeroItem, HeroStagger, MotionLink } from "./motion";
+
+const springTransition = {
+    type: "spring" as const,
+    stiffness: 450,
+    damping: 32,
+    mass: 0.8,
+};
+
+const focusRing =
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background";
+
+function RollingLabel({ text }: { text: string }) {
+    return (
+        <span className="relative inline-flex overflow-hidden leading-tight">
+            <span className="inline-block transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-[120%] group-focus-visible:-translate-y-[120%] motion-reduce:transition-none motion-reduce:group-hover:translate-y-0 motion-reduce:group-focus-visible:translate-y-0">
+                {text}
+            </span>
+            <span
+                aria-hidden
+                className="absolute inset-0 inline-block translate-y-[120%] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0 group-focus-visible:translate-y-0 motion-reduce:hidden"
+            >
+                {text}
+            </span>
+        </span>
+    );
+}
 
 export default function Hero() {
     return (
         <HeroStagger className="flex flex-col items-center px-4 pb-8 pt-10 text-center sm:pb-12 sm:pt-16">
             <HeroItem>
-                <a
-                    href="#features"
-                    className="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/90 px-4 py-1.5 text-[13px] font-medium text-neutral-900 shadow-sm backdrop-blur-md transition-all hover:border-black/10"
+                <div
+                    className={`inline-flex min-h-8 max-w-full items-center gap-2 rounded-full border border-border bg-card/90 px-4 py-1.5 text-[13px] font-medium text-card-foreground shadow-sm backdrop-blur-md transition-all `}
                 >
-                    <span className="flex size-2 animate-pulse rounded-full bg-primary" />
+                    <span
+                        aria-hidden
+                        className="flex size-2 shrink-0 animate-pulse rounded-full bg-primary motion-reduce:animate-none"
+                    />
                     <span>AI replies that show their sources</span>
-                    <ChevronRight className="size-3 text-neutral-500" />
-                </a>
+                </div>
             </HeroItem>
 
             <HeroItem>
                 <h1
-                    className="mt-5 max-w-4xl tracking-tight text-neutral-900 sm:mt-6"
-                    style={{ fontSize: "clamp(32px, 8vw, 66px)", lineHeight: 1.05, fontWeight: 500, letterSpacing: "-0.02em" }}
+                    id="hero-heading"
+                    className="mt-5 max-w-4xl text-balance tracking-tight text-foreground sm:mt-6"
+                    style={{ fontSize: "clamp(2rem, 8vw, 4.125rem)", lineHeight: 1.05, fontWeight: 500, letterSpacing: "-0.02em" }}
                 >
-                    Support faster with an AI that <br />
+                    Support faster with an AI that <br className="hidden sm:block" />
                     <span
-                        className="text-primary"
+                        className="text-primary dark:text-primary"
                         style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontWeight: 400 }}
                     >
                         always shows its sources.
@@ -35,8 +63,8 @@ export default function Hero() {
 
             <HeroItem>
                 <p
-                    className="mt-4 max-w-2xl px-2 font-normal leading-relaxed text-neutral-700 sm:mt-6"
-                    style={{ fontSize: "clamp(15px, 3.5vw, 18px)" }}
+                    className="mt-4 max-w-2xl px-2 font-normal leading-relaxed text-foreground/80 sm:mt-6"
+                    style={{ fontSize: "clamp(0.9375rem, 3.5vw, 1.125rem)" }}
                 >
                     AllyDesk is the shared inbox where AI drafts every reply from your own help articles, points to
                     the ones it used, and your team has the final say before anything is sent.
@@ -46,31 +74,38 @@ export default function Hero() {
             <HeroItem className="mt-7 flex w-full flex-col items-center justify-center gap-3 sm:mt-9 sm:w-auto sm:flex-row">
                 <MotionLink
                     href="/inbox"
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="group inline-flex items-center gap-3 rounded-full bg-foreground py-2.5 pl-6 pr-2 text-[14px] font-medium text-white shadow-xl shadow-black/10"
+                    whileTap={{ scale: 0.98 }}
+                    transition={springTransition}
+                    className={`group inline-flex w-full max-w-xs items-center justify-center gap-3 overflow-hidden rounded-full bg-foreground py-2.5 pl-6 pr-2 text-[14px] font-medium text-background shadow-xl shadow-foreground/10 transition-colors duration-200 hover:bg-foreground/90 motion-reduce:transition-none dark:shadow-none sm:w-auto sm:max-w-none ${focusRing}`}
                 >
-                    Open live workspace
-                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/15 transition-transform group-hover:translate-x-0.5">
-                        <ArrowRight className="size-4" aria-hidden />
+                    <RollingLabel text="Open live workspace" />
+                    <span
+                        aria-hidden
+                        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-background/15 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 motion-reduce:transition-none"
+                    >
+                        <ArrowRight className="size-4" />
                     </span>
                 </MotionLink>
                 <MotionLink
                     href="#how-it-works"
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white px-6 py-3 text-[14px] font-medium text-neutral-900 shadow-sm"
+                    whileTap={{ scale: 0.98 }}
+                    transition={springTransition}
+                    className={`group inline-flex w-full max-w-xs items-center justify-center gap-2 overflow-hidden rounded-full border border-border bg-card px-6 py-3 text-[14px] font-medium text-card-foreground shadow-sm transition-colors duration-200 hover:bg-muted motion-reduce:transition-none sm:w-auto sm:max-w-none ${focusRing}`}
                 >
-                    <PlayCircle className="size-4 text-neutral-500" aria-hidden /> See how it works
+                    <PlayCircle
+                        className="size-4 shrink-0 text-muted-foreground transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105 motion-reduce:transition-none"
+                        aria-hidden
+                    />
+                    <RollingLabel text="See how it works" />
                 </MotionLink>
             </HeroItem>
 
             <HeroItem>
-                <p className="flex items-center gap-2 pt-5 text-xs font-medium text-neutral-600">
-                    <ShieldCheck className="size-4 text-emerald-600" aria-hidden />
-                    Your team approves every reply
-                    <span aria-hidden>•</span>
-                    Answers come only from your articles
+                <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 pt-5 text-xs font-medium text-foreground/80">
+                    <ShieldCheck className="size-4 shrink-0 text-status-resolved" aria-hidden />
+                    <span>Your team approves every reply</span>
+                    <Database  className="size-4 shrink-0 text-status-resolved" aria-hidden />
+                    <span>Answers come only from your articles</span>
                 </p>
             </HeroItem>
         </HeroStagger>

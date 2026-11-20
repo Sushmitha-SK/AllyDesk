@@ -16,6 +16,7 @@ import {
     Users,
     type LucideIcon,
 } from "lucide-react";
+import { FAQ } from "@/lib/data";
 
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -514,6 +515,7 @@ const TABS: {
 
 
 
+
 export function WorkspaceTabs() {
     const [active, setActive] = useState(TABS[0]!.id);
     const tab = TABS.find((t) => t.id === active) ?? TABS[0]!;
@@ -523,8 +525,7 @@ export function WorkspaceTabs() {
             <div
                 role="tablist"
                 aria-label="Workspace areas"
-                className="mx-auto flex w-fit max-w-full gap-1 overflow-x-auto rounded-full border border-border bg-card p-1 shadow-xs"
-            >
+                className="no-scrollbar mx-auto flex w-fit max-w-full gap-1 overflow-x-auto rounded-full border border-border bg-card p-1 shadow-xs scrollbar-none">
                 {TABS.map((t) => {
                     const selected = t.id === active;
                     return (
@@ -535,8 +536,16 @@ export function WorkspaceTabs() {
                             aria-selected={selected}
                             aria-controls={`panel-${t.id}`}
                             type="button"
-                            onClick={() => setActive(t.id)}
-                            className={`relative flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring ${selected ? "text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+                            onClick={(e) => {
+                                setActive(t.id);
+                                const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+                                e.currentTarget.scrollIntoView({
+                                    behavior: reduce ? "auto" : "smooth",
+                                    inline: "center",
+                                    block: "nearest",
+                                });
+                            }}
+                            className={`relative flex min-h-10 shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring sm:px-4 ${selected ? "text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
                         >
                             {selected && (
                                 <motion.span
@@ -545,14 +554,14 @@ export function WorkspaceTabs() {
                                     className="absolute inset-0 rounded-full bg-primary shadow-md shadow-primary/30"
                                 />
                             )}
-                            <t.icon className="relative size-4" aria-hidden />
+                            <t.icon className="relative size-4 shrink-0" aria-hidden />
                             <span className="relative">{t.label}</span>
                         </button>
                     );
                 })}
             </div>
 
-            <div className="mt-10">
+            <div className="mt-8 sm:mt-10">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={tab.id}
@@ -565,17 +574,14 @@ export function WorkspaceTabs() {
                         transition={{ duration: 0.3, ease }}
                         className="relative"
                     >
-                        {/* Background Glow Effect for the whole panel */}
                         <div aria-hidden className="absolute -inset-4 -z-10 rounded-3xl bg-primary/10 blur-2xl" />
-
-                        {/* Full Panel Card Container */}
-                        <div className="grid items-center gap-8 rounded-3xl border border-border bg-card p-8 shadow-xl lg:grid-cols-[1fr_1.35fr] lg:p-10">
-                            <div>
-                                <h3 className="text-2xl font-semibold tracking-tight text-foreground">{tab.title}</h3>
+                        <div className="grid items-center gap-6 rounded-3xl border border-border bg-card p-5 shadow-xl sm:gap-8 sm:p-8 lg:grid-cols-[1fr_1.35fr] lg:p-10">
+                            <div className="min-w-0">
+                                <h3 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">{tab.title}</h3>
                                 <p className="mt-3 text-base leading-relaxed text-muted-foreground">{tab.body}</p>
                             </div>
-                            
-                            <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-background/50 p-2 shadow-inner">
+
+                            <div className="relative min-w-0 overflow-hidden rounded-2xl border border-border/60 bg-background/50 p-1.5 shadow-inner sm:p-2">
                                 {tab.mock()}
                             </div>
                         </div>
@@ -585,32 +591,62 @@ export function WorkspaceTabs() {
         </div>
     );
 }
-/* =========================================================================
-   FAQ accordion
-========================================================================= */
 
-const FAQ = [
-    {
-        q: "Does the AI send replies on its own?",
-        a: "No. It only writes a draft. A person on your team reads it, edits it if needed and sends it. Each draft keeps a status, so you can see what was approved and what was discarded.",
-    },
-    {
-        q: "What if my help articles don’t cover the question?",
-        a: "The draft doesn’t guess. It tells the customer you’re looking into it and will follow up, and it never promises refunds, credits or deadlines you haven’t published.",
-    },
-    {
-        q: "Do I need to write articles first?",
-        a: "AllyDesk answers from your help articles, so the more you publish, the more it can cite. Without a match it falls back to a safe holding reply for your agent to finish.",
-    },
-    {
-        q: "Can each person turn AI drafts off?",
-        a: "Yes. Every team member has an AI drafts switch in their own preferences, next to their signature and the option to move tickets to Pending after replying.",
-    },
-    {
-        q: "Who can get into my workspace?",
-        a: "Only people who sign in. Apart from the landing page and sign-in screens, every page asks for a signed-in user, and team members are either Admins or Agents.",
-    },
-];
+
+
+
+// export function Faq() {
+//     const [open, setOpen] = useState<number | null>(0);
+
+//     return (
+//         <div className="space-y-3">
+//             {FAQ.map((f, i) => {
+//                 const isOpen = open === i;
+//                 return (
+//                     <div
+//                         key={f.q}
+//                         className={`surfaceCard overflow-hidden transition-colors ${isOpen ? "border-primary/40" : ""}`}
+//                     >
+//                         <h3>
+//                             <button
+//                                 type="button"
+//                                 aria-expanded={isOpen}
+//                                 aria-controls={`faq-${i}`}
+//                                 onClick={() => setOpen(isOpen ? null : i)}
+//                                 className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left text-base font-medium text-foreground outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
+//                             >
+//                                 {f.q}
+//                                 <motion.span
+//                                     animate={{ rotate: isOpen ? 45 : 0 }}
+//                                     transition={{ type: "spring", stiffness: 400, damping: 24 }}
+//                                     className={`flex size-6 shrink-0 items-center justify-center rounded-full ${isOpen ? "bg-primary/15 text-primary" : "bg-muted text-muted-foreground"}`}
+//                                 >
+//                                     <Plus className="size-3.5" aria-hidden />
+//                                 </motion.span>
+//                             </button>
+//                         </h3>
+//                         <AnimatePresence initial={false}>
+//                             {isOpen && (
+//                                 <motion.div
+//                                     id={`faq-${i}`}
+//                                     initial={{ height: 0, opacity: 0 }}
+//                                     animate={{ height: "auto", opacity: 1 }}
+//                                     exit={{ height: 0, opacity: 0 }}
+//                                     transition={{ duration: 0.35, ease }}
+//                                 >
+//                                     <p className="px-6 pb-5 text-sm leading-relaxed text-muted-foreground">{f.a}</p>
+//                                 </motion.div>
+//                             )}
+//                         </AnimatePresence>
+//                     </div>
+//                 );
+//             })}
+//         </div>
+//     );
+// }
+
+// Drop-in replacement for `Faq` in interactive.tsx.
+// Uses the imports already present there (useState, motion, AnimatePresence, Plus, FAQ, ease).
 
 export function Faq() {
     const [open, setOpen] = useState<number | null>(0);
@@ -622,18 +658,21 @@ export function Faq() {
                 return (
                     <div
                         key={f.q}
-                        className={`surfaceCard overflow-hidden transition-colors ${isOpen ? "border-primary/40" : ""}`}
+                        className={`surfaceCard overflow-hidden transition-colors motion-reduce:transition-none ${isOpen ? "border-primary/40" : ""}`}
                     >
                         <h3>
                             <button
                                 type="button"
+                                id={`faq-btn-${i}`}
                                 aria-expanded={isOpen}
                                 aria-controls={`faq-${i}`}
                                 onClick={() => setOpen(isOpen ? null : i)}
                                 className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left text-base font-medium text-foreground outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
                             >
-                                {f.q}
+                                {/* span with min-w-0 lets long words wrap instead of pushing the + icon off-screen at 320px */}
+                                <span className="min-w-0 break-words">{f.q}</span>
                                 <motion.span
+                                    aria-hidden
                                     animate={{ rotate: isOpen ? 45 : 0 }}
                                     transition={{ type: "spring", stiffness: 400, damping: 24 }}
                                     className={`flex size-6 shrink-0 items-center justify-center rounded-full ${isOpen ? "bg-primary/15 text-primary" : "bg-muted text-muted-foreground"}`}
@@ -646,12 +685,14 @@ export function Faq() {
                             {isOpen && (
                                 <motion.div
                                     id={`faq-${i}`}
+                                    role="region"
+                                    aria-labelledby={`faq-btn-${i}`}
                                     initial={{ height: 0, opacity: 0 }}
                                     animate={{ height: "auto", opacity: 1 }}
                                     exit={{ height: 0, opacity: 0 }}
                                     transition={{ duration: 0.35, ease }}
                                 >
-                                    <p className="px-6 pb-5 text-sm leading-relaxed text-muted-foreground">{f.a}</p>
+                                    <p className="px-6 pb-5 text-sm leading-relaxed text-muted-foreground [overflow-wrap:anywhere]">{f.a}</p>
                                 </motion.div>
                             )}
                         </AnimatePresence>
@@ -661,4 +702,3 @@ export function Faq() {
         </div>
     );
 }
-
