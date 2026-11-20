@@ -11,7 +11,7 @@ export default async function WorkspaceLayout({
     const agent = await getCurrentAgent();
 
     return (
-        <div className="flex h-dvh overflow-hidden">
+        <div className="flex h-dvh overflow-hidden font-sans">
             <a
                 href="#main-content"
                 className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-primary focus:px-3 focus:py-2 focus:text-sm focus:text-primary-foreground"
