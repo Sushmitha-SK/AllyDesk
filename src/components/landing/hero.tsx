@@ -104,7 +104,7 @@ export default function Hero() {
                 <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 pt-5 text-xs font-medium text-foreground/80">
                     <ShieldCheck className="size-4 shrink-0 text-status-resolved" aria-hidden />
                     <span>Your team approves every reply</span>
-                    <Database  className="size-4 shrink-0 text-status-resolved" aria-hidden />
+                    <Database className="size-4 shrink-0 text-status-resolved" aria-hidden />
                     <span>Answers come only from your articles</span>
                 </p>
             </HeroItem>
