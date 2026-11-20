@@ -1,5 +1,4 @@
 import { Globe2, Inbox, Search, Send, Settings, Sparkles, Users } from 'lucide-react'
-import React from 'react'
 import { Button } from '../ui/button'
 import Image from 'next/image'
 import { assets } from '@/app/assets/assets'
@@ -10,7 +9,6 @@ export default function InboxPreview() {
             <div className="px-3 sm:px-6 pb-6">
                 <div className="mx-auto w-full max-w-255 rounded-3xl bg-[#f5f2ee]/95 backdrop-blur-xl p-3 sm:p-5 shadow-2xl border border-white/40">
                     <div className="relative overflow-hidden rounded-2xl border border-border/80 bg-card shadow-xl text-left">
-                        {/* App Top Toolbar */}
                         <div className="flex h-11 items-center justify-between border-b border-border/60 bg-muted/40 px-4">
                             <div className="flex items-center gap-2">
                                 <div className="size-3 rounded-full bg-red-500/80" />
@@ -25,9 +23,7 @@ export default function InboxPreview() {
                             </div>
                         </div>
 
-                        {/* App Main Layout Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-12 min-h-125 bg-background text-xs">
-                            {/* Column 1: App Sidebar */}
                             <div className="hidden md:flex md:col-span-2 flex-col border-r border-border/60 bg-sidebar p-3 justify-between">
                                 <div className="space-y-4">
                                     <div className="flex items-center gap-2 px-2 pt-1">
@@ -63,7 +59,6 @@ export default function InboxPreview() {
                                 </div>
                             </div>
 
-                            {/* Column 2: Inbox Ticket List */}
                             <div className="hidden md:flex md:col-span-4 flex-col border-r border-border/60 bg-muted/10">
                                 <div className="p-3 border-b border-border/40 space-y-2">
                                     <div className="font-semibold text-foreground text-sm">Inbox</div>
@@ -79,7 +74,6 @@ export default function InboxPreview() {
                                     </div>
                                 </div>
                                 <div className="divide-y divide-border/40 overflow-y-auto max-h-110">
-                                    {/* Selected Ticket */}
                                     <div className="p-3 bg-primary/10 border-l-2 border-primary space-y-1.5 cursor-pointer">
                                         <div className="flex items-center justify-between">
                                             <span className="font-semibold text-foreground text-xs truncate">Mobile app crashes when attaching photos</span>
@@ -133,9 +127,7 @@ export default function InboxPreview() {
                                 </div>
                             </div>
 
-                            {/* Column 3 & 4 Combined: Active Ticket Thread & Customer Profile */}
                             <div className="col-span-1 md:col-span-6 flex flex-col justify-between bg-background">
-                                {/* Ticket Header & Messages */}
                                 <div className="p-3 border-b border-border/40 space-y-3">
                                     <div className="flex items-start justify-between">
                                         <div>
@@ -148,7 +140,6 @@ export default function InboxPreview() {
                                         </div>
                                     </div>
 
-                                    {/* Customer message */}
                                     <div className="flex gap-2.5 pt-2">
                                         <div className="size-7 rounded bg-neutral-200 text-neutral-800 font-semibold flex items-center justify-center shrink-0 text-[11px]">KW</div>
                                         <div className="space-y-1 bg-muted/30 p-2.5 rounded-lg border border-border/40 w-full">
@@ -160,7 +151,6 @@ export default function InboxPreview() {
                                         </div>
                                     </div>
 
-                                    {/* Agent reply */}
                                     <div className="flex gap-2.5">
                                         <div className="size-7 rounded bg-primary/20 text-primary font-semibold flex items-center justify-center shrink-0 text-[11px]">PS</div>
                                         <div className="space-y-1 bg-primary/5 p-2.5 rounded-lg border border-primary/20 w-full">
@@ -173,7 +163,6 @@ export default function InboxPreview() {
                                     </div>
                                 </div>
 
-                                {/* AI Reply & Input Box */}
                                 <div className="p-3 space-y-2 bg-muted/10">
                                     <div className="rounded-lg border border-primary/40 bg-linear-to-br from-primary/10 via-primary/[02%] to-transparent p-2.5 space-y-2 shadow-2xs">
                                         <div className="flex items-center justify-between">
